@@ -1,0 +1,134 @@
+
+<div class="vertical-menu">
+
+    <div class="h-100">
+
+        <div class="user-wid text-center py-4">
+            <div class="mt-3">
+                <a href="#" class="text-dark font-weight-medium font-size-16">{{app.user.nom}} {{app.user.prenom}}</a>
+                <p class="text-body mt-1 mb-0 font-size-13">{% if is_granted('ROLE_SUPER_ADMIN') %}
+                        SUPER ADMIN
+                    {% elseif  is_granted('ROLE_CHEF') %}
+                        CHEF
+                    {% elseif is_granted('ROLE_TECH') %}
+                       TECHNICIEN
+                    {% elseif  is_granted('ROLE_MAG')%}
+                        MAGASINIER
+
+
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+                {% if   is_granted('ROLE_SUPER_ADMIN')%}
+                <li class="menu-title">Super_Admin</li>
+
+                <li>
+                    <a href="{{path('user_table')}}" class=" waves-effect">
+                        <i class="fas fa-user"></i>
+                        <span>Compte utilisateur</span>
+                    </a>
+                </li>
+                {% endif %}
+                {% if  is_granted('ROLE_CHEF') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_TECH')%}
+                <li class="menu-title">RESSOURCE</li>
+                {% endif %}
+                {% if  is_granted('ROLE_CHEF') or is_granted('ROLE_SUPER_ADMIN')%}
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-address-card"></i>
+                        <span>Ressource Humaine</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="true">
+
+                        <li><a href="javascript: void(0);" class="has-arrow">Employé</a>
+                            <ul class="sub-menu" aria-expanded="true">
+                                <li><a href="{{ path('liste_tech') }}">Technicien</a></li>
+                                <li><a href="{{path('liste_mag')}}">Magasinier</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="{{path('liste_four')}}">Fournisseur</a></li>
+                        <li><a href="{{path('liste_sout')}}">Sous Traitant</a></li>
+                    </ul>
+                </li>
+                {% endif %}
+                {% if  is_granted('ROLE_CHEF') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_TECH')%}
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-slot-machine-outline"></i>
+                        <span>Machines</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{path('liste_machine')}}">Machines</a></li>
+                        {% if  is_granted('ROLE_CHEF') or is_granted('ROLE_SUPER_ADMIN')%}
+                        <li><a href="{{path('liste_fam')}}">Familles</a></li>
+                        <li><a href="{{path('liste_sou_fam')}}">Sous Familles</a></li>
+                        <li><a href="{{path('liste_entretient')}}">Entretient</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                {% endif %}
+
+
+                {% if  is_granted('ROLE_CHEF') or is_granted('ROLE_SUPER_ADMIN')%}
+                <li>
+                    <a href="{{path('liste_emp')}}" class=" waves-effect">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Emplacements</span>
+                    </a>
+                </li>
+
+                {% endif %}
+
+
+                <li class="menu-title">Maintenance</li>
+
+                {% if is_granted('ROLE_MAG') or is_granted('ROLE_CHEF') or is_granted('ROLE_SUPER_ADMIN')%}
+
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class="mdi mdi-settings"></i>
+{#                        <span class="badge badge-pill badge-danger float-right">6</span>#}
+                        <span>Magasin</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{path('liste_piece')}}">Piéces de rechange</a></li>
+                        <li><a href="{{path('liste_bon_entre')}}">Bon d'entrée</a></li>
+                        <li><a href="{{path('liste_bon_sortie')}}">Bon de sortie</a></li>
+
+                    </ul>
+                </li>
+                {% endif%}
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect">
+                        <i class="fas fa-wrench"></i>
+
+                        <span id="notif" class="badge badge-pill badge-danger float-right"></span>
+                        <span>Intervention</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+{#                        <li><a href="form-elements.html">Demande</a></li>#}
+                        {% if is_granted('ROLE_TECH') or is_granted('ROLE_CHEF') or is_granted('ROLE_SUPER_ADMIN')%}
+                        <li><a href="{{path('liste_demande_inter')}}">Curative</a></li>
+                        {% endif %}
+                        <li><a href="{{path('liste_fiche_inter')}}">Preventive</a></li>
+                        <li><a href="{{path('liste_fiche_demo')}}">Démontage</a></li>
+                        {% if  is_granted('ROLE_CHEF') or is_granted('ROLE_SUPER_ADMIN')%}
+
+                        <li><a href="{{path('historique_liste_demande')}}">Historique demandes intervention</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>

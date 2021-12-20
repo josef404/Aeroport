@@ -1,0 +1,257 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body" style="color: #0b0b0b">
+  <div class="row">
+      <div class="col-6">
+          Direction généralede sureté national <br>
+          Direction générale des services communs<br>
+          Direction des services techniques<br>
+          B.N.S.T.A.P<br>
+      </div>
+      <div class="col-6 text-right">
+          الإدارة العامــــــة للأمن الوطنـــــــــــي <br>
+          الإدارة العامة للمصالحالمشتركة <br>
+          إدارة الخدمات الفنيــــــــة <br>
+          الفرقة الوطنية للخدمـات الفنيــــــــة <br>
+                    بالمطارات و الموانئ
+
+
+      </div>
+  </div>
+  <div class="row">
+                <div class="col-12 text-center" style="font-size: x-large; color: darkgrey">
+                    نهاية مهمة فنيـــــة <br>
+                    FIN DE MISSION
+
+                </div>
+  </div><br>
+  <div class="invoice-title text-right" style=" font-size: large;padding-bottom: 2px ; margin-bottom: 0px ">
+      <span>Données de base</span> / <span>البيانات الأساسية</span>
+
+      <hr style="border-top: 2px solid cadetblue; padding-top: 0px; margin-top: 0px">
+  </div>
+  <div class="row">
+      <div class="col-4">
+          Référence <br>
+          Date et horaire de réclamation <br>
+          Lieu de la mission <br>
+          Date et horaire del’intervention tech
+      </div>
+      <div class="col-4 text-center">
+          {{FicheInters.reference}} <br>
+          {{ FicheInters.datedeclaration | date('d/M/Y h:i') }} <br>
+          {{FicheInters.machine.batiment.emplacement.libelle}}/{{FicheInters.machine.batiment.libelle}} <br>
+          {{FicheInters.datedebut | date('d/M/Y h:i')}}
+      </div>
+      <div class="col-4 text-right">
+          المرجع <br>
+          تاريخ و توقيت الإعلام عن المهمة <br>
+          مكان المهمة <br>
+          تاريخ و توقيت التدخل الفني
+      </div>
+  </div>
+  <div class="invoice-title text-right" style=" font-size: large ;padding-bottom: 2px ; margin-bottom: 0px">
+      <span>L’appareil</span> / <span>الجهاز</span>
+
+      <hr style="border-top: 2px solid cadetblue; padding-top: 0px; margin-top: 0px">
+  </div>
+  <div class="row">
+  <div class="row" style="margin-bottom: 20px; width: 100%">
+
+          <div class="col-4 text-right">
+              {{ FicheInters.machine.numserie }}   <span>    :(SN)</span> <span>الرقم</span>
+          </div>
+          <div class="col-4 text-right">
+              {{ FicheInters.machine.sousfamille.famid.libelle }} <span>    :(model)</span> <span>المصنع</span>
+          </div>
+          <div class="col-4 text-right">
+              {{ FicheInters.machine.sousfamille.marque }}  <span>    :(marque)</span> <span>النوع</span>
+          </div>
+          </div>
+      <br>
+
+          <div class="col-6 text-right">
+             {% if FicheInters.soutraitant.nom is not defined %}  {% else %} {{FicheInters.soutraitant.nom}}{% endif %}<span>    :(société intervenante)</span> <span>الشركة المتداخلة</span>
+          </div>
+          <div class="col-6 text-right" >
+              {{FicheInters.machine.batiment.emplacement.libelle}}/{{FicheInters.machine.batiment.libelle}}   <span>    :(Lieu d’emplacement)</span> <span>مكان التركيز</span>
+          </div>
+
+
+
+
+
+
+  </div>
+  <div class="invoice-title text-right" style=" font-size: large ;padding-bottom: 2px ; margin-bottom: 0px">
+                <span>Travaux technique effectuées</span> / <span>الأشغال الفنية المنجزة</span>
+
+                <hr style="border-top: 2px solid cadetblue; padding-top: 0px; margin-top: 0px">
+            </div>
+  <div class="row">
+          <div class="row" style="height: 250px ; width: 100%">
+        <div class="col-12 text-left">
+            {{ FicheInters.description }}
+        </div>
+          </div>
+      <div class="row" style=" width: 100%; ">
+          <div class="col-6 text-right" >
+             <span style="margin-bottom: 20px"> <span>chef de brigade tech</span> / <span>رئيس الفريق الفني </span></span> <br>
+              {% for item in techs %}
+                  {% if item.user is same as (FicheInters.tech) %}
+              {{item.chef.nom}}  {{item.chef.prenom}}
+                  {% endif %}
+              {% endfor %}
+          </div>
+          <div class="col-6 text-right" >
+             <span style="margin-bottom: 20px"> <span>Technicien (s)</span> / <span>الفريق الفنـــي </span></span><br>
+              {{FicheInters.tech.nom}} {{FicheInters.tech.prenom}} <br>
+              {% for item in FicheInters.techniciens %}
+                  {{ item.nom }} {{ item.prenom }} <br>
+              {% endfor %}
+          </div>
+
+      </div>
+  </div>
+  <div class="invoice-title text-right" style=" font-size: large ;padding-bottom: 2px ; margin-bottom: 0px">
+                <span> Observations de bénéficiaire</span> / <span>ملاحظات الوحدة المنتفعة</span>
+
+                <hr style="border-top: 2px solid cadetblue; padding-top: 0px; margin-top: 0px">
+            </div>
+  <div class="row">
+       <div class="col-4 text-center">
+           <span>chef de l’unitébénéfique</span> / <span>آمر الوحدة المنتفعة</span>
+       </div>
+      <div class="col-8 text-right">
+................................................................................................................................ <br><br>
+................................................................................................................................<br><br>
+      </div>
+  </div>
+  <div class="invoice-title text-right" style=" font-size: large ;padding-bottom: 2px ; margin-bottom: 0px">
+                <span>  Pieces de rechange et consumables</span> / <span>قطع الغيار المستعملة</span>
+
+                <hr style="border-top: 2px solid cadetblue; padding-top: 0px; margin-top: 0px">
+            </div>
+  <div class="row">
+                <div class="col-12">
+                    <table border="0">
+                        {% for bon in FicheInters.bonSorties  %}
+                             {% for lbs in bon.ligneBS %}
+                            <tr> <td>* {{ lbs.piece.designation }}</td><td style="padding-left: 50px; ">{{ lbs.quantite }}</td></tr>
+                            {% endfor %}
+                        {% endfor %}
+                    </table>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="d-print-none">
+                        <div class="float-right">
+                            <a href="javascript:window.print()" class="btn btn-success w-md waves-effect waves-light">Imprimer</a>
+                        </div>
+                    </div>
+                </div>
+  </div>
+
+
+        </div>
+  </div>
+  </div>
+    {# <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="invoice-title">
+                                            <h4 class="float-right font-size-16">Fiche d'intervention n° {{ FicheInters.numerointervention }}</h4>
+                                            <div class="mb-4">
+                                                <img src="{{ asset('assets/images/new.png') }}" alt="logo" height="40" />
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <center><table id="datatable" class="table table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+
+                                                <tr>
+                                                    <th>Nom technicien</th>
+                                                    <td>{{FicheInters.tech.nom}} {{FicheInters.tech.prenom}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Machine</th>
+                                                    <td>{{FicheInters.machine.libelle}}</td>
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Pieces</th>
+                                                    <td>
+
+
+<table border="0">
+    {% for bon in FicheInters.bonSorties  %}
+        {% for lbs in bon.ligneBS %}
+    <tr><td>{{ lbs.piece.designation }}</td><td>{{ lbs.quantite }}</td></tr>
+    {% endfor %}
+    {% endfor %}
+</table>
+
+                                                    </td>
+
+
+                                                </tr>
+
+                                                    <tr>
+                                                        <th>Date de réclamation</th>
+                                                        <td>{{FicheInters.datedeclaration | date('d/M/Y')}}</td>
+
+
+                                                    </tr>
+                                                <tr>
+                                                    <th>Emplacement</th>
+                                                    <td>{{FicheInters.machine.batiment.emplacement.libelle}}/{{FicheInters.machine.batiment.libelle}}</td>
+
+                                                </tr>
+
+                                                <tr>
+                                                    <th>Date debut réparation</th>
+                                                    <td>{{FicheInters.datedebut | date('d/M/Y h:i')}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <th>Date fin réparation</th>
+                                                    <td>{{FicheInters.datefin | date('d/M/Y h:i')}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <td>{{FicheInters.description}}</td>
+                                                </tr>
+                                               #}{# <tr>
+                                                    <th>Pieces</th>
+                                                    <td>{{FicheInters.piece.designation}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <th>Quantité</th>
+                                                    <td>{{FicheInters.quantite}}</td>
+
+                                                </tr>#}{#
+                                                <tr>
+                                                    <th>Etat</th>
+                                                    <td> {% if FicheInters.activation is same as(true) %}
+                                                            <span class="badge badge-pill badge-soft-success">Validé</span>
+                                                        {% else %}
+                                                            <span class="badge badge-pill badge-soft-warning">En cours</span>
+                                                        {% endif %}
+
+                                                    </td>
+                                                </tr>
+
+                                            </table></center>
+                                        <div class="d-print-none">
+                                            <div class="float-right">
+                                                <a href="javascript:window.print()" class="btn btn-success w-md waves-effect waves-light">Imprimer</a>
+                                            </div>
+                                            {{ date | date('d/m/Y   h:i') }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>#}
+
+{% endblock %}

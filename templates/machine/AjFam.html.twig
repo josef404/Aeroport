@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+ {% block stylesheets %}
+     {{ parent() }}
+ {% endblock %}
+{% block title %}Ajouter famille{% endblock %}
+{% block entete %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="page-title mb-0 font-size-18">Nouveau famille</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item active"></li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                {#<h4 class="card-title">Textual inputs</h4>
+                <p class="card-title-desc">Here are examples of <code>.form-control</code> applied to each textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p>
+#}
+
+                {{ form_start(formFam) }}
+                <div class="form-group row">
+                    <div class="col-md-10">
+
+                        {{ form_row(formFam.libelle, {'attr':{'placeholder':'libelle ...', 'class':' col-form-label form-control', 'id':'example-text-input'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-10">
+                        {{ form_row(formFam.dimention,  {'attr':{'placeholder':'dimention ...', 'class':' col-form-label form-control', 'id':'example-tel-input'}}) }}
+                    </div>
+                </div>
+
+
+
+
+                {# <div class="mt-3" style="height: 50px; width: 200px">
+
+                     <a href="{{ajouter_tech}}" class="btn btn-primary btn-block waves-effect waves-light" id="_submit" name="_submit" >Ajouter</a>
+                 </div>#}
+                <div class="form-group row">
+                    {% if editMode %}
+                        <div class="col-md-10">
+
+                            <button type="submit" class="btn btn-warning waves-effect waves-light">Modifier</button>
+                        </div>
+
+
+                    {% else %}
+                        <div class="col-md-10">
+
+                            <button type="submit" class="btn btn-success waves-effect waves-light">Ajouter</button>
+
+                        </div>
+                    {% endif %}
+                </div>
+                {{ form_end(formFam) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

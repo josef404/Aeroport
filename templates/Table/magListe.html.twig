@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/libs/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+{% block title %}Magasiniers{% endblock %}
+{% block entete %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="page-title mb-0 font-size-18">Liste des magasiniers</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item active"></li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body ">
+                {% for message in app.flashes('success_mag') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="mdi mdi-check-all mr-2"></i> {{ message }}
+
+                    </div>
+                {% endfor %}
+                {% for message in app.flashes('error_mag') %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="mdi mdi-block-helper mr-2"></i> {{ message }}
+                    </div>
+                {% endfor %}
+
+
+                <div class="mt-3" style="height: 50px; width: 200px">
+
+                    <a href="/register" class="btn btn-primary btn-block waves-effect waves-light" id="_submit" name="_submit" >Ajouter un Magasinier</a>
+                </div>
+
+                <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Prenom</th>
+                        <th>Adresse</th>
+                        <th>Téléphone</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {% for mag in mags  %}
+                        <mag>
+                            <tr>
+                                <td>{{mag.nom}}</td>
+                                <td>{{mag.prenom}}</td>
+                                <td>{{mag.adress}}</td>
+                                <td>{{mag.telephone}}</td>
+                                <td>
+                                      <center> <a href="{{ path('modifier_mag',{'id' : mag.id}) }}"> <i class="bx bxs-edit-alt" ></i></a>||<a href="{{ path('supp_mag',{'id' : mag.id}) }}"><i class="mdi mdi-delete-forever"></i></a></center>
+                                </td>
+                                {# <td>{{ userTable.id |date("d/m/Y - H:i") }}</td>
+                                 <td>{%  for role in userTable.getRoles() %}
+                                         <ul>
+                                             <li> {{ role }}</li>
+                                         </ul>
+
+                                 {%  endfor %}</td>#}
+
+                            </tr>
+                        </mag>
+                    {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        </div>
+    </div>
+    <!-- end col -->
+
+    <!-- end row -->
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <!-- Required datatable js -->
+    <script src="{{ asset('assets/libs/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <!-- Buttons examples -->
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/pdfmake/build/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/pdfmake/build/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-buttons/js/buttons.colVis.min.js') }}"></script>
+    <!-- Responsive examples -->
+    <script src="{{ asset('assets/libs/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
+
+    <!-- Datatable init js -->
+    <script src="{{ asset('assets/js/pages/datatables.init.js') }}"></script>
+{% endblock %}

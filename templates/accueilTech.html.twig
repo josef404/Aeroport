@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {{ parent() }}
+
+{% endblock %}
+{% block body %}
+    </div>
+
+    <center><table id="datatable montab" class="table table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+            <thead>
+            <tr>
+                <th>Machine</th>
+                <th>Technicien affecté</th>
+                <th>Date</th>
+                <th>Emlacement</th>
+                <th>Description</th>
+                <th>Action</th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+
+            {% for fich in DemandeInters  %}
+               {% for item in fich.technicien %}
+                   {% if item.user == app.user %}
+                <tr bgcolor="red" style="color: #0b0b0b">
+                    <td>{{fich.machine.libelle}}</td>
+                    <td>{{item.nom}} {{item.prenom}}</td>
+                    <td>{{fich.date | date('d/M/Y')}}</td>
+                    <td>{{fich.machine.batiment.emplacement.libelle}}/{{fich.machine.batiment.libelle}}</td>
+                    <td>{{fich.description}}</td>
+                    <td>
+                        <center> <a href="{{ path('supp_demande_inter',{'id' : fich.id}) }}"><i class="mdi mdi-delete-forever"></i></a></center>
+                    </td>
+
+
+                    {# <td>{{ userTable.id |date("d/m/Y - H:i") }}</td>
+                     <td>{%  for role in userTable.getRoles() %}
+                             <ul>
+                                 <li> {{ role }}</li>
+                             </ul>
+
+                     {%  endfor %}</td>#}
+
+                </tr> <script>
+                    $('#notif').show();
+
+                </script>
+                   {% endif %}
+            {% endfor %}
+            {% endfor %}
+
+            </tbody>
+
+        </table></center>
+<script>count(); alert(count());</script>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+
+        $('#notif').html($('table tbody tr').length);
+        $('#notif').show();
+
+
+
+    </script>
+{% endblock %}

@@ -1,0 +1,368 @@
+{% extends 'base.html.twig' %}
+{% block title %}Dashboard{% endblock %}
+{% block entete %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="page-title mb-0 font-size-18">Dashboard</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item active"></li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <div class="row">
+
+            <div class="col-lg-6" >
+        <div class="card">
+            <div class="card-body">
+
+                <h4 class="font-size-16 mt-2">Machines</h4>
+
+                <div class="row text-center">
+                    <div class="col-4">
+                        <h5 class="mb-0">{{fonc+manque}}</h5>
+                        <p class="text-muted text-truncate">Total</p>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="mb-0">{{manque}}</h5>
+                        <p class="text-muted text-truncate">Manque entretient</p>
+                    </div>
+                    <div class="col-4">
+                        <h5 class="mb-0">{{fonc}}</h5>
+                        <p class="text-muted text-truncate">Fonctionnelle</p>
+                    </div>
+                </div>
+
+                <canvas id="doughnutChart"></canvas>
+
+            </div>
+        </div>
+    </div >
+            <div class="col-lg-6" >
+                <div class="card" style="width: 100%">
+                    <div class="card-body" style="width: 100%">
+
+                        <h4 class="font-size-16 mt-2">Interventions</h4>
+
+                        {# <div class="row text-center">
+                             <div class="col-4">
+                                 <h5 class="mb-0">{{machFonc+machManq}}</h5>
+                                 <p class="text-muted text-truncate">Nombre de machine total</p>
+                             </div>
+                             <div class="col-4">
+                                 <h5 class="mb-0">{{machManq}}</h5>
+                                 <p class="text-muted text-truncate">Nombre de machine manque entretient</p>
+                             </div>
+                             <div class="col-4">
+                                 <h5 class="mb-0">{{machFonc}}</h5>
+                                 <p class="text-muted text-truncate">Nombre de machine fonctionnelle</p>
+                             </div>
+                         </div>#}
+
+
+                        <canvas id="barChart" style="width: 100%"></canvas>
+                    </div>
+                </div>
+            </div>
+
+<div class="row " style=" position: center;margin-left: auto; margin-right: auto;">
+            <div class="card" style="margin-left: 20px">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="avatar-sm font-size-20 mr-3">
+                                            <span class="avatar-title bg-soft-primary text-primary rounded">
+                                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                                </span>
+                        </div>
+                        <div class="media-body">
+                            <div class="font-size-16 mt-2">Techniciens</div>
+
+                        </div>
+                    </div>
+                    <center><h4 class="mt-4">{{ tech }}</h4></center>
+                    <div class="row">
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="margin-left: 20px">
+                <div class="card-body">
+                    <div class="media">
+                        <div class="avatar-sm font-size-20 mr-3">
+                                            <span class="avatar-title bg-soft-primary text-primary rounded">
+                                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                                </span>
+                        </div>
+                        <div class="media-body">
+                            <div class="font-size-16 mt-2">Magasiniers</div>
+
+                        </div>
+                    </div>
+                    <center><h4 class="mt-4">{{ mag }}</h4></center>
+                    <div class="row">
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="margin-left: 20px">
+        <div class="card-body">
+            <div class="media">
+                <div class="avatar-sm font-size-20 mr-3">
+                                            <span class="avatar-title bg-soft-primary text-primary rounded">
+                                                    <i class="mdi mdi-account-multiple-outline"></i>
+                                                </span>
+                </div>
+                <div class="media-body">
+                    <div class="font-size-16 mt-2">Chefs</div>
+
+                </div>
+            </div>
+            <center><h4 class="mt-4">{{ tot }}</h4></center>
+            <div class="row">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row " style=" position: center;margin-left: auto; margin-right: auto;">
+
+            <div class="card" style="margin-left: 20px">
+        <div class="card-body" >
+            <div class="media">
+                <div class="avatar-sm font-size-20 mr-3">
+                                            <span class="avatar-title bg-soft-primary text-primary rounded">
+
+                                            <i class="fas fa-map-marker-alt"></i>
+
+                                                </span>
+                </div>
+                <div class="media-body">
+                    <div class="font-size-16 mt-2">Emplacements</div>
+
+                </div>
+            </div>
+            <center><h4 class="mt-4">{{ emp }}</h4></center>
+            <div class="row">
+
+
+            </div>
+        </div>
+    </div>
+            <div class="card" style="margin-left: 20px">
+        <div class="card-body" >
+            <div class="media">
+                <div class="avatar-sm font-size-20 mr-3">
+                                            <span class="avatar-title bg-soft-primary text-primary rounded">
+
+                                            <i class="mdi mdi-timer-sand"></i>
+
+                                                </span>
+                </div>
+                <div class="media-body">
+                    <div class="font-size-16 mt-2">Estimation de temps de reparation</div>
+
+                </div>
+            </div>
+            <center><h4 class="mb-0" style="width: auto">{{moyH}} Heures</h4>
+                <h4 class="mb-0">{{ moyM }} Minutes</h4></center>
+            <div class="row">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+    <hr width="90%" STYLE="  border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+        <div class="font-size-16 mt-2" style="margin-right: auto; margin-left: auto;">Fiche Intervention en attente</div>
+        <hr width="90%" STYLE="  border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 90%;margin-right: auto; margin-left: auto; ">
+        <thead>
+        <tr style="color: white ; background-color: darkgrey" >
+            <th>Numero Intervention</th>
+            <th>Machine</th>
+            <th>Date de réclamtion</th>
+            <th>Etat</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for fiche in fiches  %}
+
+            <tr style="background-color: white; ">
+                <td>{{fiche.numerointervention}}</td>
+                <td>{{fiche.machine.libelle}}</td>
+                <td>{{fiche.datedeclaration | date('d/M/Y')}}</td>
+                <td> {% if fiche.activation is same as(true) %}
+                        <span class="badge badge-pill badge-soft-success">Validé</span>
+                    {% else %}
+                        <span class="badge badge-pill badge-soft-warning">En cours</span>
+                    {% endif %}
+
+                </td>
+
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+    <hr width="90%" STYLE="  border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+        <div class="font-size-16 mt-2" style="margin-right: auto; margin-left: auto;">Demande intervention en cours</div>
+        <hr width="90%" STYLE="  border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));">
+    <table id="datatable" class="table table-bordered dt-responsive" style="border-collapse: collapse; border-spacing: 0;  width: 90%;margin-right: auto; margin-left: auto;">
+        <thead>
+        <tr style="color: white ; background-color: darkgrey" >
+            <th>Machine</th>
+            <th>Technicien affecté</th>
+            <th>Date</th>
+            <th>Emlacement</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        {% for fich in demandes  %}
+            <tr style="background-color: white; ">
+                <td>{{fich.machine.libelle}}</td>
+
+                <td> {% if fich.technicien is not null %}
+                        {% for item in fich.technicien %}
+                            {{item.nom}} {{item.prenom}} <br>
+                        {% endfor %}
+                    {% endif %}
+                </td>
+
+                <td>{{fich.date | date('d/M/Y')}}</td>
+                <td> {{fich.machine.batiment.emplacement.libelle}}/{{fich.machine.batiment.libelle}}</td>
+                <td>{{fich.description}}</td>
+
+
+
+
+
+
+            </tr>
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/pages/dashboard-2.init.js') }}"></script>
+    <script src="{{ asset('assets/libs/chart.js/Chart.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/chartjs.init.js') }}"></script>
+    <script>//doughnut
+        var ctxD = document.getElementById("doughnutChart").getContext('2d');
+
+
+
+
+        var myLineChart = new Chart(ctxD, {
+            type: 'doughnut',
+            data: {
+                labels: [ "Machine manque entretient","Machine fonctionnelle"],
+                datasets: [{
+                    data: ["{{ manque }}","{{ fonc }}"],
+                    backgroundColor: ["#F7464A", "#46BFBD", "#FDB45C", "#949FB1", "#4D5360"],
+                    hoverBackgroundColor: ["#FF5A5E", "#5AD3D1", "#FFC870", "#A8B3C5", "#616774"]
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        }) ;
+    </script>
+
+    <script>//bar
+        var ctxB = document.getElementById("barChart").getContext('2d');
+        var myBarChart = new Chart(ctxB, {
+            type: 'bar',
+            data: {
+                labels: ["Janvier", "Fevrier", "Mars", "Avril", "May", "Juin", "Juillet", "Aout", "September", "October", "November", "Décember"],
+                datasets: [{
+
+                    data: ["{{janvier}}", "{{fevrier}}", "{{mars}}", "{{avril}}", "{{mai}}", "{{juin}}","{{juillet}}", "{{aout}}", "{{september}}", "{{october}}", "{{november}}", "{{decemeber}}"],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                        'rgba(255,64,220,0.2)',
+                        'rgba(18,235,82,0.2)',
+                        'rgba(12,30,255,0.2)',
+                        'rgba(192,44,3,0.2)',
+                        'rgba(8,255,221,0.2)',
+                        'rgba(255,137,79,0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(255,64,220,1)',
+                        'rgba(18,235,82, 1)',
+                        'rgba(12,30,255, 1)',
+                        'rgba(192,44,3, 1)',
+                        'rgba(8,255,221, 1)',
+                        'rgba(255,137,79, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                legend: {
+                    display: false},
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+           })
+        ;
+        </script>
+
+
+{% endblock %}

@@ -1,0 +1,221 @@
+{% extends 'base.html.twig' %}
+ {% block stylesheets %}
+     {{ parent() }}
+
+
+ {% endblock %}
+{% block title %}Ajouter emplacement{% endblock %}
+{% block entete %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="page-title mb-0 font-size-18">Nouvelle emplacement</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item active"></li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                {#<h4 class="card-title">Textual inputs</h4>
+                <p class="card-title-desc">Here are examples of <code>.form-control</code> applied to each textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p>
+#}
+
+                {{ form_start(formEmp,{'attr':{'id':'form'}}) }}
+                {{ form_row(formEmp.id)}}
+                <div class="form-group row">
+                    <div class="col-md-10">
+
+                        {{ form_row(formEmp.libelle, {'attr':{'placeholder':'Libelle ...', 'class':' col-form-label form-control', 'id':'example-text-input'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-10">
+                        {{ form_row(formEmp.ville,  {'attr':{'placeholder':'Ville ...', 'class':' col-form-label form-control', 'id':'example-text-input'}}) }}
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-10">
+                        {{ form_row(formEmp.description,  {'attr':{'placeholder':'Description ...', 'class':' col-form-label form-control', 'id':'example-text-input'}}) }}
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="form-group row" >
+
+
+                    <div class="col-md-6" style="width: 30%">
+                        <label for="selectQ" >Batiment</label>
+                        <input type="text" class="form-control" id="batiment" name="selectQ" placeholder="Libelle...">
+
+                    </div>
+                    <div class="col-md-0" style="padding-top:29px; margin-bottom:0px;">
+
+                        <button type="button" name="save" id="save" class=" form-control btn btn-outline-success" >+</button>
+                    </div>
+                </div>
+
+
+
+
+                <br/>
+                <div id="inserted_item_data">
+                    <div class="card-body">
+
+
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0" id="crud_table">
+
+                                <thead>
+                                <tr>
+
+                                    <th>Batiment</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                {# <div class="mt-3" style="height: 50px; width: 200px">
+
+                     <a href="{{ajouter_tech}}" class="btn btn-primary btn-block waves-effect waves-light" id="_submit" name="_submit" >Ajouter</a>
+                 </div>#}
+
+                {{ form_end(formEmp) }}
+
+                <div class="form-group row">
+
+                    <div class="col-md-10">
+
+                        <button type="button" id="enregistrer" class="btn btn-success waves-effect waves-light">Ajouter</button>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+
+        $(document).ready(function () {
+            var count = 1;
+
+            $(document).on('click', '.remove', function(){
+                var delete_row = $(this).data("row");
+                $('#' + delete_row).remove();
+            });
+
+            $('#save').click(function () {
+
+                var item_batiment = $('#batiment').val();
+
+
+
+                if ($('#batiment').val()) {
+                    count = count + 1;
+                    var html_code = "<tr id='row" + count + "'>";
+                    html_code += "<td  class='item_batiment'>" + item_batiment + "</td>";
+                    html_code += "<td><button type='button' name='remove' data-row='row"+count+"' class='btn btn-danger btn-xs remove' style='height: 50%; width: 50%; padding: 0px; margin: 0px'><i class=\"mdi mdi-delete-circle-outline\"'></i></button></td>";
+                    $('#crud_table').append(html_code);
+                    for(var i=2; i<= count; i++)
+                    {
+                        $('tr#'+i+'').remove();
+                    }
+                }
+
+
+                $('#batiment').text("");
+
+
+
+
+            });
+            $('#enregistrer').click(function () {
+                function getBatiment() {
+                    var t = $('#crud_table');
+                    var array = [];
+                    var headers = [];
+                    if (t.data()) {
+                        $('#crud_table th').each(function (index, item) {
+                            headers[index] = $(item).html();
+                        });
+                        $('#crud_table tr').has('td').each(function () {
+                            var arrayItem = {};
+
+                            $('td', $(this)).each(function (index, item) {
+                                if (index < 4) {
+                                    if ($(item).children().length > 0) {
+                                        arrayItem[headers[index]] = $(item).children(0).val();
+                                    } else {
+                                        arrayItem[headers[index]] = $(item).html();
+                                    }
+                                }
+                            });
+
+                            array.push(arrayItem);
+                        });
+                    }
+                    return array;
+                }
+
+                var formData = new FormData(document.getElementById('form'));
+                formData.append("items", JSON.stringify(getBatiment()));
+
+                $.ajax({
+                    url: "{{ path('ajouter_emp') }}",
+                    method: "POST",
+                    enctype: 'multipart/form-data',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+
+                    success: function (response) {
+
+                        if(response.success){
+                            location.href = "{{ path('liste_emp') }}";
+                        }else
+                        {
+                            location.href = "{{ path('erreur') }}";
+                        }
+
+
+                    },
+                    error: function (response) {
+
+                    }
+                });
+
+
+            });
+
+        });
+    </script>
+
+{% endblock %}

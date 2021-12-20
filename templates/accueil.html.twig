@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% if  is_granted('ROLE_MAG') and not is_granted('ROLE_SUPER_ADMIN') and not is_granted('ROLE_CHEF')%}
+    {% for p1 in piece %}
+        {% if p1.quantite < 20 %}
+    <div class="col-lg-4">
+        <div class="card bg-warning text-white-50">
+            <div class="card-body">
+                <h5 class="mt-0 mb-4 text-white"><i class="mdi mdi-alert-outline mr-3"></i>Notification</h5>
+                <p class="card-text" style="color: #853b2f">La piece {{ p1.designation }} est en limite de stock !!</p>
+            </div>
+        </div>
+    </div>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+{% endblock %}

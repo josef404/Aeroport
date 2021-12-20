@@ -1,0 +1,181 @@
+{% extends 'base.html.twig' %}
+ {% block stylesheets %}
+     {{ parent() }}
+ {% endblock %}
+{% block title %}Ajouter machine{% endblock %}
+{% block entete %}
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="page-title mb-0 font-size-18">Nouveau machine</h4>
+
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item active"></li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block body %}
+
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                {#<h4 class="card-title">Textual inputs</h4>
+                <p class="card-title-desc">Here are examples of <code>.form-control</code> applied to each textual HTML5 <code>&lt;input&gt;</code> <code>type</code>.</p>
+#}
+
+                {{ form_start(formMachine,  {'attr':{'id':'form'}}) }}
+                {% if  is_granted('ROLE_CHEF') or is_granted('ROLE_SUPER_ADMIN')%}
+                <div class="form-group row">
+                    <div class="col-md-10">
+
+                        {{ form_row(formMachine.libelle, {'attr':{'placeholder':'libelle ...', 'class':' col-form-label form-control', 'id':'example-text-input'}}) }}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-md-10">
+                        {{ form_row(formMachine.num_serie,  {'attr':{'placeholder':'Numero de serie ...', 'class':' col-form-label form-control', 'id':'example-tel-input'}}) }}
+                    </div>
+                </div>
+                    <div class="form-group row">
+                        <div class="col-md-10">
+                            {{ form_row(formMachine.nbHeureTravail,  {'attr':{'placeholder':'Numero de serie ...', 'class':' col-form-label form-control', 'id':'example-tel-input'}}) }}
+                        </div>
+                    </div>
+
+                <div class="form-group row">
+
+                    <div class="col-md-10">
+                        <div class="input-group date " data-provide="datepicker">
+                            {{ form_row(formMachine.date_installation,  {'attr':{ 'placeholder':'mm/dd/yyyy','autocomplete':'off','class':' col-form-label form-control'}}) }}
+                            <div class="input-group-addon">
+                                <span class="glyphicon glyphicon-th"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-md-10">
+                        {{ form_row(formMachine.sous_famille,  {'attr':{'placeholder':'Select ...','class':' col-form-label form-control', 'id':'example-text-input'}}) }}
+
+                    </div>
+                </div>
+
+
+
+                    <div class="form-group row">
+
+                    <div class="col-md-10">
+                        {{ form_row(formMachine.emplacement,  {'attr':{'placeholder':'Select ...','class':' col-form-label form-control', 'id':'example-text-input'}}) }}
+
+                    </div>
+                </div>
+
+                    <div class="form-group row" id="machine_batiment_libelle">
+
+                    <div class="col-md-10">
+                        {{ form_row(formMachine.batiment,  {'attr':{'placeholder':'Select ...','class':' col-form-label form-control', 'id':'example-text-input'}}) }}
+
+                    </div>
+                </div>
+
+
+                {% endif %}
+
+
+
+
+                {# <div class="mt-3" style="height: 50px; width: 200px">
+
+                     <a href="{{ajouter_tech}}" class="btn btn-primary btn-block waves-effect waves-light" id="_submit" name="_submit" >Ajouter</a>
+                 </div>#}
+                <div class="form-group row" >
+                    {% if editMode %}
+                        <div class="col-md-10">
+
+                            <button type="submit" class="btn btn-warning waves-effect waves-light">Modifier</button>
+                        </div>
+
+
+                    {% else %}
+                        <div class="col-md-10">
+
+                            <button type="submit" class="btn btn-success waves-effect waves-light">Ajouter</button>
+
+                        </div>
+                    {% endif %}
+                </div>
+                {{ form_end(formMachine) }}
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        var $batiment=$("#machine_emplacement");
+
+        var $token=$("#machine__token");
+        var $bat=$('#machine_batiment');
+
+        //$('#machine_batiment').hide();
+        $('#machine_batiment_libelle').hide();
+        $batiment.change(function () {
+
+            $bat.html('');
+            var data={};
+
+            data[$token.attr('name')]=$token.val();
+
+
+            data[$batiment.attr('name')]=$batiment.val();
+
+
+            $.ajax({
+                url: "{{ path('emplacement') }}",
+                method: "POST",
+                data: data,
+
+
+                success: function (batiments) {
+
+
+                    // Remove current options
+                    $bat.html('');
+
+                    // Empty value ...
+                    $bat.append('<option value> Selectionner batiment de ' + $batiment.find("option:selected").text() + ' ...</option>');
+
+
+                    $.each(batiments, function (key, batiment) {
+                        $bat.append('<option value="' + batiment.id + '">' + batiment.name + '</option>');
+                    });
+
+                },
+                error: function (response) {
+
+                }
+            });
+
+            $('#machine_batiment_libelle').show();
+
+        })
+
+
+
+        function log($msg) {
+            console.log($msg)
+        }
+
+
+    </script>
+{% endblock %}

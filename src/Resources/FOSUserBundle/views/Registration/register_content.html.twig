@@ -1,0 +1,116 @@
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+
+<div class="account-pages my-5 pt-sm-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6 col-xl-5">
+                <div class="card overflow-hidden">
+                    <div class="bg-login text-center">
+                        <div class="bg-login-overlay"></div>
+                        <div class="position-relative">
+                            <h5 class="text-white font-size-20">Ajouter un utilisateur</h5>
+                            <p class="text-white-50 mb-0">Création d'un nouveau compte !</p>
+                            <a href="/" class="logo logo-admin mt-4">
+                                <img src="{{ asset('assets/images/new.png') }}" alt="" height="40">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body pt-5">
+
+                        <div class="p-2">
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register form-horizontal'}}) }}
+                            <div class="form-group">
+                                {{ form_row(form.nom, {'attr':{'placeholder' : 'nom...','class':'form-control' ,'id':'username'}}) }}
+
+
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.prenom, {'attr':{'placeholder' : 'prenom...','class':'form-control' ,'id':'username'}}) }}
+
+
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.adress, {'attr':{'placeholder' : 'adress...','class':'form-control' ,'id':'username'}}) }}
+
+
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.telephone, {'attr':{'placeholder' : 'tel...','class':'form-control' ,'id':'username'}}) }}
+
+
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-10">
+                                    <div class="input-group date " data-provide="">
+                                        {{ form_row(form.date_naissance,  {'attr':{ 'placeholder':'mm/dd/yyyy','autocomplete':'off','class':' col-form-label form-control'}}) }}
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-md-10">
+                                    <div class="input-group date " data-provide="">
+                                        {{ form_row(form.date_recrutement,  {'attr':{ 'placeholder':'mm/dd/yyyy','autocomplete':'off','class':' col-form-label form-control'}}) }}
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_row(form.username, {'attr':{'placeholder' : 'Username...','class':'form-control' ,'id':'username'}}) }}
+
+
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_row(form.email, {'attr':{'placeholder' : 'Email...','class':'form-control' ,'id':'useremail'}}) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_row(form.plainPassword.first, {'attr':{'placeholder' : 'Password...','class':'form-control' ,'id':'userpassword'}}) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.plainPassword.second, {'attr':{'placeholder' : 'Password confirmation...','class':'form-control' ,'id':'userpassword'}}) }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_row(form.userRoles, {'attr':{'placeholder' : 'Selectionner le Role...','class':'form-control' ,'id':'userpassword'}}) }}
+                            </div>
+
+
+
+
+    <div>
+        <input type="submit" class="btn btn-primary btn-block waves-effect waves-light" value="{{ 'registration.submit'|trans }}" />
+
+    </div>
+{{ form_end(form) }}
+                        </div>
+
+                    </div>
+                </div>
+                <div class="mt-5 text-center">
+
+                    <p>© 2020 Aeroport. Crafted with <i class="mdi mdi-heart text-danger"></i> by Elligy</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script src="{{ asset('assets/libs/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ asset('assets/libs/metismenu/metisMenu.min.js') }}"></script>
+<script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
+<script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
+<script src="{{ asset('assets/js/bootstrap-datepicker.js') }}"></script>
+
+<script src="{{ asset('assets/js/app.js') }}"></script>
